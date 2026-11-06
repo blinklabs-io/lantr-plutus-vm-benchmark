@@ -176,6 +176,8 @@ version 11. Plutus's own `validation` CEK benchmark does the same. See [METHODOL
 
 The latest run is at [plutus-vm-bench.lantr.io](https://plutus-vm-bench.lantr.io). Each run is in
 [`results/<date>/`](results/) with its hardware and image digests (`environment.txt`).
+The page of each published run has a permalink, for example
+[plutus-vm-bench.lantr.io/results/2026-11-01/](https://plutus-vm-bench.lantr.io/results/2026-11-01/).
 
 The directories in `results/` from before 2026-10 are SAIB-era runs. They used different VMs,
 parameters and hardware. Do not compare them with the current runs.

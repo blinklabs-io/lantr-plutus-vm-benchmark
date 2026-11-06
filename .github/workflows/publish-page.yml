@@ -13,6 +13,7 @@ on:
       - "docs/lantr-logo.png"
       - "docs/lantr-logo-dark.png"
       - "docs/favicon.svg"
+      - "scripts/collect-site.sh"
       - ".github/workflows/publish-page.yml"
   workflow_dispatch:
     inputs:
@@ -105,12 +106,9 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: main
-      # Publish only the page and its assets, not the internal docs in docs/ (same as run.yml).
+      # The page, its assets and a permalink page per published run (scripts/collect-site.sh).
       - name: Collect site files
-        run: |
-          mkdir -p _site
-          cp docs/index.html docs/favicon.svg docs/og.png docs/robots.txt docs/sitemap.xml \
-             docs/lantr-logo.png docs/lantr-logo-dark.png _site/
+        run: scripts/collect-site.sh
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

@@ -1337,7 +1337,8 @@ def json_ld(rows, items, run_dir: str, date: str, description: str, n_scripts: i
 
 def seo_head(description: str, date: str, ld: str, published: bool, favicon: str) -> str:
     """The <head> tags after <title>. published: the page at SITE_URL (docs/index.html); else the
-    copy in results/<run>/, which is not served on the site: noindex, no canonical."""
+    copy in results/<run>/, served at SITE_URL/results/<run>/ as the permalink of that run:
+    noindex, no canonical."""
     og_image = f"{SITE_URL}{OG_IMAGE}?v={date}"
     alt = "Plutus VM Benchmark: decode + eval geometric mean of the fastest ranked Plutus VMs"
     d = escape(description)

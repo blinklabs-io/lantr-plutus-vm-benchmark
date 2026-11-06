@@ -111,23 +111,23 @@ Run, gated and shown, but not ranked: not in the table above, not a competitor i
 
 ### History (speed relative to Haskell plutus-core, same run; higher is faster)
 
-| VM | 2026-10-23 | 2026-10-26 | 2026-10-27 | Change vs previous run |
-|---|---|---|---|---|
-| plutus-core (Haskell / GHC) | 1x (Haskell) | 1x (Haskell) | 1x (Haskell) | reference |
-| Scalus JIT (Scala / JVM) (experimental, eval only) | 2.2x faster | 2.6x faster | 2.9x faster | +13 % |
-| Scalus CEK (Scala / JVM) | 1.8x faster | 3.0x faster | 2.6x faster | -12 % |
-| Scalus.js CEK (Scala.js / Node V8) | 5.0x slower | 2.1x slower | 2.1x slower | no change (within ±5 % noise) |
-| Aiken uplc (Rust) | 11.6x slower | 10.2x slower | 11.6x slower | -12 % |
-| Aiken uplc WASM (Rust → WASM / Node V8) (eval only) | 3.3x slower | 3.2x slower | 3.2x slower | no change (within ±5 % noise) |
-| amaru-uplc (Rust) | 1.5x faster | 1.5x faster | 1.5x faster | no change (within ±5 % noise) |
-| Plutigo (Go) | 2.5x faster | 2.6x faster | 2.3x faster | -10 % |
-| blaze-plutus (TypeScript / Node V8) (experimental) | 2.5x slower | 2.1x slower | 1.8x slower | +16 % |
-| Chrysalis (C# / .NET JIT) (experimental) | - | - | 1.3x faster | - |
-| Chrysalis AOT (C# / .NET AOT) (experimental) | - | - | 1.2x faster | - |
-| Julc Java CEK (Java / JVM) (experimental) | - | - | 1.5x faster | - |
-| Plutuz (Zig) (experimental) | - | - | 1.4x faster | - |
-| llvm-uplc JIT (C++ / LLVM) (experimental, eval only) | - | - | 2.5x faster | - |
-| amaru-uplc BC (fork) (Rust) (experimental) | - | - | 2.1x faster | - |
+| VM | 2026-10-23 | 2026-10-26 | 2026-10-27 | 2026-11-01 | Change vs previous run |
+|---|---|---|---|---|---|
+| plutus-core (Haskell / GHC) | 1x (Haskell) | 1x (Haskell) | 1x (Haskell) | 1x (Haskell) | reference |
+| Scalus JIT (Scala / JVM) (experimental, eval only) | 2.2x faster | 2.6x faster | 2.9x faster | 3.0x faster | no change (within ±5 % noise) |
+| Scalus CEK (Scala / JVM) | 1.8x faster | 3.0x faster | 2.6x faster | 2.7x faster | no change (within ±5 % noise) |
+| Scalus.js CEK (Scala.js / Node V8) | 5.0x slower | 2.1x slower | 2.1x slower | 2.0x slower | no change (within ±5 % noise) |
+| Aiken uplc (Rust) | 11.6x slower | 10.2x slower | 11.6x slower | 11.4x slower | no change (within ±5 % noise) |
+| Aiken uplc WASM (Rust → WASM / Node V8) (eval only) | 3.3x slower | 3.2x slower | 3.2x slower | 3.2x slower | no change (within ±5 % noise) |
+| amaru-uplc (Rust) | 1.5x faster | 1.5x faster | 1.5x faster | 1.7x faster | +10 % |
+| Plutigo (Go) | 2.5x faster | 2.6x faster | 2.3x faster | 1.9x faster | -19 % |
+| blaze-plutus (TypeScript / Node V8) (experimental) | 2.5x slower | 2.1x slower | 1.8x slower | 1.8x slower | no change (within ±5 % noise) |
+| Chrysalis (C# / .NET JIT) (experimental) | - | - | 1.3x faster | 1.3x faster | no change (within ±5 % noise) |
+| Chrysalis AOT (C# / .NET AOT) (experimental) | - | - | 1.2x faster | 1.2x faster | no change (within ±5 % noise) |
+| Julc Java CEK (Java / JVM) (experimental) | - | - | 1.5x faster | 1.5x faster | no change (within ±5 % noise) |
+| Plutuz (Zig) (experimental) | - | - | 1.4x faster | 1.4x faster | no change (within ±5 % noise) |
+| llvm-uplc JIT (C++ / LLVM) (experimental, eval only) | - | - | 2.5x faster | 2.5x faster | no change (within ±5 % noise) |
+| amaru-uplc BC (fork) (Rust) (experimental) | - | - | 2.1x faster | 2.1x faster | no change (within ±5 % noise) |
 
 A VM marked "eval only" has no decode + eval time (it compiles each script before timing, or its library caches the decode): its ratio is its eval-only time divided by Haskell's eval-only time.
 

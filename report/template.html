@@ -145,6 +145,7 @@
   .titleblock > div.wide { grid-column: 1 / -1; border-right: 0; border-bottom: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 0.75rem; }
   .titleblock > div.wide dd { flex: 1 1 auto; }
   .titleblock .tb-link { font-size: 0.8125rem; white-space: nowrap; }
+  .archive-note { font-size: 0.875rem; color: var(--graphite); border: 1px solid var(--rule-strong); border-radius: 2px; padding: 0.5rem 0.75rem; margin-bottom: 1rem; }
   .titleblock dt { font-size: 0.75rem; color: var(--graphite); }
   .titleblock dd { font-stretch: 85%; font-weight: 650; font-size: 1.125rem; line-height: 1.25; overflow-wrap: anywhere; }
   .titleblock dd.rev { font-size: 1.125rem; }
@@ -538,6 +539,7 @@
 <body>
 <main class="doc">
 
+  <p class="archive-note" id="archive-note" hidden></p>
   <header class="masthead">
     <div class="mast-top">
       <a href="https://lantr.io" target="_blank" class="logo-link" aria-label="lantr.io">
@@ -561,7 +563,7 @@
       <p class="doc-sub">How fast Cardano Plutus (UPLC) virtual machines run the same scripts, and whether their results are correct.</p>
     </div>
     <dl class="titleblock" aria-label="This revision">
-      <div><dt>Revision (run date)</dt><dd class="rev" id="run-v"></dd></div>
+      <div><dt>Revision (run date)</dt><dd class="rev" id="run-v"></dd><a class="tb-link" id="run-permalink" hidden>Permalink</a></div>
       <div><dt>Correctness gate</dt><dd id="gate-v"></dd></div>
       <div><dt>Scripts</dt><dd><span class="n-scripts"></span> scripts</dd></div>
       <div><dt>Harness commit</dt><dd>{{HARNESS_LINK}}</dd></div>
@@ -899,6 +901,19 @@ document.querySelectorAll('.n-scripts').forEach(e => { e.textContent = scripts.l
       + (nHidden ? ' ' + nHidden + ' failed and ' + (nHidden === 1 ? 'is' : 'are') + ' not shown (<a href="#failed-section">Failed check</a>).' : '');
   }
   document.getElementById('run-v').textContent = REPORT.run;
+  // The permalink of this run (scripts/collect-site.sh). The copy at that permalink has noindex: on
+  // it, a note says that the page does not change and links to the latest run.
+  const runPage = ((REPORT.history || {}).pages || {})[REPORT.run];
+  if (runPage) {
+    const pl = document.getElementById('run-permalink');
+    pl.href = runPage; pl.hidden = false;
+    if (/noindex/.test((document.querySelector('meta[name="robots"]') || {}).content || '')) {
+      const note = document.getElementById('archive-note');
+      const latest = runPage.replace(/results\/[^/]+\/$/, '');
+      note.innerHTML = 'This page shows the run of ' + esc(REPORT.run) + ' and does not change. The latest run is at <a href="' + latest + '">' + esc(latest.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</a>.';
+      note.hidden = false;
+    }
+  }
   if (REPORT.drift_percent !== null && REPORT.drift_percent !== undefined) {
     const d = REPORT.drift_percent;
     document.getElementById('drift-d').textContent = (d >= 0 ? '+' : '') + d.toFixed(1) + ' % (Haskell, end of the run vs start)';
@@ -1604,6 +1619,7 @@ renderBoard(false);
   // speed ratio in that run (Haskell's time divided by the VM's time).
   const hist = REPORT.history || { runs: [], series: {} };
   const runsList = hist.runs || [];
+  const pages = hist.pages || {};
   const revBody = document.getElementById('rev-body');
   revBody.innerHTML = runsList.map((run, i) => {
     const timed = Object.keys(hist.series).filter(vm => hist.series[vm][i] > 0);
@@ -1615,7 +1631,7 @@ renderBoard(false);
     });
     const cur = run === REPORT.run;
     const fastest = best ? esc((VM_META[best] || { label: best }).label) + ', ' + bestS.toFixed(2) + '&times;' : '&ndash;';
-    return '<tr' + (cur ? ' class="current"' : '') + '><td><span class="revno">R' + (i + 1) + '</span>' + (cur ? ' (this page)' : '') + '</td><td>' + esc(run) + '</td><td class="num">' + timed.length + '</td><td>' + fastest + '</td></tr>';
+    return '<tr' + (cur ? ' class="current"' : '') + '><td><span class="revno">R' + (i + 1) + '</span>' + (cur ? ' (this page)' : '') + '</td><td>' + (pages[run] ? '<a href="' + pages[run] + '">' + esc(run) + '</a>' : esc(run)) + '</td><td class="num">' + timed.length + '</td><td>' + fastest + '</td></tr>';
   }).reverse().join('') || '<tr><td colspan="4">This run has no history yet.</td></tr>';
 
   // Caption numbers, in page order, only for what is shown.

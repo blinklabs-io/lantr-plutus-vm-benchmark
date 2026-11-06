@@ -668,7 +668,18 @@ def load_history(run_dir: str) -> dict:
     order = {vm: i for i, vm in enumerate(VM_ORDER)}
     return {"runs": runs,
             "series": {vm: series[vm] for vm in sorted(series, key=lambda v: (order.get(v, 99), v))},
-            "eval_only": sorted(eval_only & set(series))}
+            "eval_only": sorted(eval_only & set(series)),
+            "pages": {r: run_page_url(r) for r in runs if run_page_url(r)}}
+
+
+def run_page_url(run: str) -> str | None:
+    """The permalink of a published run (scripts/collect-site.sh serves results/<run>/index.html
+    there), or None for a partial run, which is never published."""
+    return f"{SITE_URL}results/{run}/" if PUBLISHED_RUN.fullmatch(run) else None
+
+
+# The name of a published run: YYYY-MM-DD, or YYYY-MM-DD-N for a second run on the same day.
+PUBLISHED_RUN = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9]+)?")
 
 
 def compute_geo_means(data, scripts, present_vms):

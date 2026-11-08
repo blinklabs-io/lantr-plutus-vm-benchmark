@@ -145,6 +145,7 @@ func BenchmarkPvbFlatFiles(b *testing.B) {
 				if err != nil {
 					b.Fatalf("decode error: %v", err)
 				}
+				machine.SetExBudget(pvbBudget)
 				if _, err := machine.Run(program.Term); err != nil {
 					b.Fatalf("eval error: %v", err)
 				}
@@ -183,6 +184,7 @@ func BenchmarkPvbEval(b *testing.B) {
 		machine := pvbMachine(ctx)
 		reuseOk := true
 		for range 2 {
+			machine.SetExBudget(pvbBudget)
 			if _, err := machine.Run(program.Term); err != nil {
 				reuseOk = false
 				break
@@ -200,6 +202,7 @@ func BenchmarkPvbEval(b *testing.B) {
 			machine := pvbMachine(ctx)
 			term := program.Term
 			for b.Loop() {
+				machine.SetExBudget(pvbBudget)
 				if _, err := machine.Run(term); err != nil {
 					b.Fatalf("eval error: %v", err)
 				}
